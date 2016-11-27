@@ -158,4 +158,38 @@ snippet cw "console.warn" b
 console.warn(${1:"${2:value}"});
 endsnippet
 
+snippet req "assign a CommonJS-style module to a var"
+const ${2:${1/(.+\/)*(\w+)(-|\b|$)(\..+$)?/$2/g}} = require('${1}');$0
+endsnippet
+
+snippet jest "jest test"
+jest.unmock('${1:component}');
+const ${2:variable} = require('$1');
+
+const React = require('react');
+const ReactDOM = require('react-dom');
+const TestUtils = require('react-addons-test-utils');
+
+describe('$2', () => {
+
+	let component, node;
+	function render(params) {
+		component = TestUtils.renderIntoDocument(<$2 {params...} />);
+		node = ReactDOM.findDOMNode(component);
+	}
+
+	describe('render', () => {
+
+		it('should render without errors', () => {
+			render();
+			expect(node).toBeTruthy();
+		});
+
+		${VISUAL}$0
+
+	});
+
+});
+endsnippet
+
 # vim:ft=snippets:
