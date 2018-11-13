@@ -4,7 +4,6 @@ extends javascript
 
 snippet rtest "Test a React Component using Jest"
 import {${1:`!p snip.rv = snip.basename.replace('.test', '')`}} from './$1'
-
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import * as TestUtils from 'react-dom/test-utils'
@@ -32,6 +31,43 @@ describe('$1', () => {
 	});
 
 });
+endsnippet
+
+snippet rtestcon "Test a React Container using Jest"
+import {${1:`!p snip.rv = snip.basename.replace('.test', '')`}} from './$1'
+import {${2:`!p snip.rv = t[1].replace('Container', '')`}} from '../components/$2'
+import * as React from 'react'
+import * as ReactDOM from 'react-dom'
+import * as TestUtils from 'react-dom/test-utils'
+import {Provider} from 'react-redux'
+import {store} from '../store'
+
+describe('MIDISettingsContainer', () => {
+
+	let node: Element
+	let component: $2
+	function render () {
+		const provider = TestUtils.renderIntoDocument(
+			<Provider store={store}>
+				<$1 />
+			</Provider>
+		) as Provider
+
+		component = TestUtils.findRenderedComponentWithType(
+			provider,
+			$2
+		)
+		node = ReactDOM.findDOMNode(component) as Element
+	}
+
+	describe('render', () => {
+		it('renders', () => {
+			render()
+			expect(node).toBeTruthy()
+		})
+	})
+
+})
 endsnippet
 
 snippet rcom "React.PureComponent"
