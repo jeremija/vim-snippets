@@ -1,3 +1,90 @@
 priority -50
 
 extends javascript
+
+snippet rtest "Test a React Component using Jest"
+import {${1:`!p snip.rv = snip.basename.replace('.test', '')`}} from './$1'
+
+import * as React from 'react'
+import * as ReactDOM from 'react-dom'
+import * as TestUtils from 'react-dom/test-utils'
+
+describe('$1', () => {
+
+	let component: $1
+	let node: Element
+	function render() {
+		component = TestUtils.renderIntoDocument(
+			<$1 />
+		) as $1
+		node = ReactDOM.findDOMNode(component) as Element
+	}
+
+	describe('render', () => {
+
+		it('renders without errors', () => {
+			render();
+			expect(node).toBeTruthy();
+		});
+
+		${VISUAL}$0
+
+	});
+
+});
+endsnippet
+
+snippet rcom "React.PureComponent"
+import * as React from 'react'
+
+export interface StateProps {
+
+}
+
+export interface ActionProps {
+
+}
+
+export interface State {
+
+}
+
+export type Props = StateProps & ActionProps
+
+export class ${1:`!p snip.rv = snip.basename`} extends React.PureComponent<Props, State> {
+	render () {
+		return (
+			<div className='$1'>
+				${VISUAL}$0
+			</div>
+		)
+	}
+}
+endsnippet
+
+snippet rcon "Redux Component"
+import {
+	${1:`!p snip.rv = snip.basename.replace('.', '').replace('Container', '')`},
+	StateProps,
+	ActionProps,
+} from '../components/$1'
+import * as ${2:Actions} from '../actions/$2'
+import {State} from '../reducers'
+import {bindActionCreators, Dispatch} from 'redux'
+import {connect} from 'react-redux'
+
+function mapStateToProps (state: State): StateProps {
+	return {
+		${VISUAL}$0
+	}
+}
+
+function mapDispatchToProps (dispatch: Dispatch): ActionProps {
+	return {
+		...bindActionCreators($2, dispatch)
+	}
+}
+
+export const $1Container =
+	connect(mapStateToProps, mapDispatchToProps)($1)
+endsnippet
