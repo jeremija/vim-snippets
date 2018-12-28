@@ -73,21 +73,21 @@ endsnippet
 snippet rcom "React.PureComponent"
 import * as React from 'react'
 
-export interface StateProps {
+export interface IStateProps {
 
 }
 
-export interface ActionProps {
+export interface IDispatchProps {
 
 }
 
-export interface State {
+export interface IState {
 
 }
 
-export type Props = StateProps & ActionProps
+export type IProps = IStateProps & IDispatchProps
 
-export class ${1:`!p snip.rv = snip.basename`} extends React.PureComponent<Props, State> {
+export class ${1:`!p snip.rv = snip.basename`} extends React.PureComponent<IProps, IState> {
 	render () {
 		return (
 			<div className='$1'>
@@ -101,21 +101,21 @@ endsnippet
 snippet rcon "Redux Component"
 import {
 	${1:`!p snip.rv = snip.basename.replace('.', '').replace('Container', '')`},
-	StateProps,
-	ActionProps,
+	IStateProps,
+	IDispatchProps,
 } from '../components/$1'
 import * as ${2:Actions} from '../actions/$2'
 import {State} from '../reducers'
 import {bindActionCreators, Dispatch} from 'redux'
 import {connect} from 'react-redux'
 
-function mapStateToProps (state: State): StateProps {
+function mapStateToProps (state: State): IStateProps {
 	return {
 		${VISUAL}$0
 	}
 }
 
-function mapDispatchToProps (dispatch: Dispatch): ActionProps {
+function mapDispatchToProps (dispatch: Dispatch): IDispatchProps {
 	return {
 		...bindActionCreators($2, dispatch)
 	}
@@ -123,4 +123,37 @@ function mapDispatchToProps (dispatch: Dispatch): ActionProps {
 
 export const $1Container =
 	connect(mapStateToProps, mapDispatchToProps)($1)
+endsnippet
+
+snippet imp "Import a module"
+import {$1} from '${2:.}/$1'
+endsnippet
+
+snippet red "Reducer"
+import {ActionKeys, IActions} from '../actions/${1:`!p snip.rv = snip.basename`}Actions'
+
+export interface I$1State {
+}
+
+export const defaultState: I$1State = {
+}
+
+export function $1(
+	state: I$1State = defaultState,
+	action: IActions,
+): I$1State {
+	switch (action.type) {
+		${VISUAL}$0
+		default:
+			return state
+	}
+}
+endsnippet
+
+snippet act "Redux Action"
+export enum ActionKeys {
+	$1
+}
+
+export type IActions = null
 endsnippet
