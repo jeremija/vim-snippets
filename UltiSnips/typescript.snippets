@@ -2,6 +2,18 @@ priority -50
 
 extends javascript
 
+snippet it "Create it test case"
+it('$1', () => {
+	${VISUAL}$0
+})
+endsnippet
+
+snippet ita "Create it async test case"
+it('$1', async () => {
+	${VISUAL}$0
+})
+endsnippet
+
 snippet rtest "Test a React Component using Jest"
 import {${1:`!p snip.rv = snip.basename.replace('.test', '')`}} from './$1'
 import * as React from 'react'
